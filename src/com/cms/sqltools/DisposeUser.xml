@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cms.sqltools.DisposeUser">
+
+    <select id="Register" parameterType="UserInfo">
+        EXEC F_Register @UserName=#{UserName},@PassWord=#{PassWord}
+        <if test="Name!=null">,@Name=#{Name}</if>
+        <if test="EMail!=null">,@EMail=#{EMail}</if>
+        <if test="ClassName!=null">,@ClassName=#{ClassName}</if>
+        <if test="TelPhone!=null">,@TelPhone=#{TelPhone}</if>
+        <if test="sex!=null">,@Sex=#{sex}</if>
+    </select>
+    
+    <select id="LoginUser" parameterType="UserInfo" resultType="UserInfo">
+        EXEC F_LoginUser @UserName=#{UserName},@PassWord=#{PassWord}
+    </select>
+</mapper>

@@ -1,0 +1,87 @@
+﻿<!doctype html>
+<!--[if (gte IE 9)|!(IE)]><!--><html  class="no-js" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US"><!--<![endif]-->
+<html class="no-js" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
+<html class="no-js" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US"><!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>北理实验室助理平台注册</title>
+	
+	<!-- Stylesheets -->
+	<link rel="stylesheet" type="text/css" href="css/framework.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/md5.js"></script>
+	<!-- Begin Contact Form Block -->
+</head>
+<body>
+	<section class="container content">
+
+		<!-- Title -->
+		<div class="row">
+			<div class="center title col-sm-12">
+				<h2 style="font-size:30px">北理实验室助理平台注册.</h2>
+				<p style="font-size:25px" id="uph1">请完善以下信息.</PPP>
+				<p style="font-size:20px" id="uph2">所有信息必填.</PPP>
+			</div>
+		</div>
+		<!-- END-->
+		<!-- Form -->
+		<div>
+			<form method="post" action="" name="contactform" id="contactform" class="row" onsubmit="return false;">
+				<fieldset id="main">
+					<div class="form-field col-sm-6">
+						<label for="loginID" style="font-size:20px">账号</label>
+						<span><input type="text" name="loginID" id="loginID" disabled="true" value="中国"></span>
+					</div>
+					<div class="form-field col-sm-6">
+						<label for="mail" style="font-size:20px">邮箱</label>
+						<span><input type="text" name="mail" id="mail"></span>
+					</div>
+					<div class="form-field col-sm-6">
+						<label for="password" style="font-size:20px">密码</label>
+						<span><input type="password" name="password" id="password"></span>
+					</div>
+					<div class="form-field col-sm-6">
+						<label for="rePassword" style="font-size:20px">重新输入密码</label>
+						<span><input type="password" name="rePassword" id="rePassword"></span>
+					</div>
+					<div class="form-field col-sm-6">
+						<label for="name" style="font-size:20px">真实姓名</label>
+						<span><input type="text" name="name" id="name"></span>
+					</div>
+					<div class="form-field col-sm-6">
+					<label for="sex" style="font-size:20px">性别</label>
+					<span>
+						<select name="sex" id="sex">
+							<option value ="man">男</option>
+							<option value ="woman">女</option>
+						</select>
+					</span>
+					</div>
+					<div class="form-field col-sm-6">
+						<label for="phone" style="font-size:20px">手机号码</label>
+						<span><input type="text" name="phone" id="phone"></span>
+					</div>
+					<div class="form-field col-sm-6">
+						<label for="theClass" style="font-size:20px">年级专业班级</label>
+						<span><input type="text" name="theClass" id="theClass"></span>
+					</div>
+				</fieldset>
+				<p class="center" style="font-size:20px" id="mess">&nbsp;</PPP>
+				<div class="form-click center ">
+						<span>
+							<input type="submit" name="submit" value="注册账号" id="submit" style="font-size:20px">
+							<input type="Button" name="ToBind" onclick="toBind()" value="绑定微信" id="ToBind" style="font-size:20px">
+						</span>
+				</div>
+			</form>	
+			<br><br>
+			
+		</div>
+		
+	</section>
+	<!-- End Contact Form Block -->
+	<script type="text/javascript" src="js/updataInfomation_main.js" ></script>
+</body></html>

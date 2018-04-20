@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cms.sqltools.DisposeBuildRoom">
+
+    <select id="CreateRoom" parameterType="Room" resultType="int">
+        EXEC  F_CreateRoom @RoomName=#{RoomName},@BuildingName=#{BuildingName},@MaxStudentCount=#{MaxStudentCount}
+        <if test="UserFor!=null">,@UserFor=#{UserFor}</if>
+    </select>
+
+    <select id="SelectRoom" resultType="Room">
+        SELECT RID AS RoomID,RName AS RoomName,BName AS BuildingName,RMaxCount AS MaxStudentCount,RUseFor AS UserFor
+        FROM RoomInfo,BuildingInfo
+        WHERE RoomInfo.BID=BuildingInfo.BID
+    </select>
+
+    <select id="UpdateRoom" parameterType="Room">
+        EXEC F_ModifyRoom @RID=#{RoomID},@RoomName=#{RoomName},@BuildingName=#{BuildingName},
+                          @MaxStudentCount=#{MaxStudentCount},@UserFor=#{UserFor}
+    </select>
+
+    <delete id="DeleteRoom" parameterType="int">
+        DELETE FROM RoomInfo WHERE RID=#{id}
+    </delete>
+
+    <select id="FilterRoom" parameterType="FilterRoomParam" resultType="int">
+        EXEC F_FilterRoom @FindUsing=#{FindUsing},@Week=#{Week},@ClassWeek=#{ClassWeek},@ClassTime=#{ClassTime},
+                          @TermID=#{TermID}
+        <if test="BuildingName!=null">,@BuildingName=#{BuildingName}</if>
+    </select>
+
+    <select id="QueryRoom" parameterType="FilterRoomParam" resultType="map">
+        EXEC F_QueryRoom
+                @TermID=#{TermID},
+                @FindUsing=#{FindUsing},
+                @QueryWeek=#{Week},
+                @QueryClassWeek=#{ClassWeek}
+        <if test="BuildingName!=null">,@BuildingName=#{BuildingName}</if>
+    </select>
+</mapper>
