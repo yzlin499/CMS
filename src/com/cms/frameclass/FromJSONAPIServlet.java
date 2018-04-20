@@ -48,7 +48,7 @@ public abstract class FromJSONAPIServlet <T extends InstanceByMap> extends HttpS
             });
         }else{
             for(Object key:jo.keySet()){
-                data.put(key.toString(),jo.get(jo).toString());
+                data.put(key.toString(),jo.get(key).toString());
             }
         }
         theFunction(data,resp);
