@@ -3,15 +3,20 @@ package com.cms.wechat;
 import com.cms.infobeans.FilterRoomParam;
 import com.cms.infobeans.QueryRoomParam;
 import com.cms.infobeans.wechat.WCText;
+import com.cms.sqltools.SqlSessionManagement;
 import com.cms.wechat.event.WCTextEvent;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.StringJoiner;
 
 public class WCSelectRoom implements WCTextEvent{
     private static String match;
     private static List<Character> dayList= Arrays.asList('前','昨','今','明','后');
+    private static Long startDay;
+    private static SqlSessionManagement<Date> asd=SqlSessionManagement.getInstance();
+
     static{
         String builds[]={"知行","明德","弘毅","天佑","弘毅","艺悦","精工"};
         StringJoiner asd=new StringJoiner(")|(","查询((前)|(昨)|(今)|(明)|(后))天((全部)|(","))楼((占用)|(空闲))课室");
@@ -19,6 +24,7 @@ public class WCSelectRoom implements WCTextEvent{
             asd.add(str);
         }
         match=asd.toString();
+
     }
 
     @Override
@@ -38,8 +44,8 @@ public class WCSelectRoom implements WCTextEvent{
 
     }
 
-//    public int calculateWeek(){
-//
-//    }
+    public int calculateWeek(){
+        return 0;
+    }
 
 }

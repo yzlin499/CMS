@@ -7,7 +7,7 @@ public class QueryRoomParam implements BasicInterface{
     private int QueryWeek=-1;
     private int QueryClassWeek=-1;
     private int TermID=0;
-    private String BuildingName;
+    private String BuildingName=null;
 
     @Override
     public boolean isNotNull() {

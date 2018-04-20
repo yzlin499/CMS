@@ -13,6 +13,7 @@ import java.io.*;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Objects;
 import java.util.Random;
 
 public class Tools {
@@ -92,9 +93,7 @@ public class Tools {
      * @throws IOException
      */
     public static String getResultString(HttpServletRequest request) throws IOException{
-        String charset=request.getCharacterEncoding();
-        charset=(charset==null?"UTF-8":charset);
-        return IOUtils.toString(request.getInputStream(), charset);
+        return IOUtils.toString(request.getInputStream(), Objects.toString(request.getCharacterEncoding(),"UTF-8"));
     }
 
     /**

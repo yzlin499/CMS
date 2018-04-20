@@ -21,5 +21,5 @@ public interface SqlKey {
     String CREATE_TERM="com.cms.sqltools.DisposeTerm.CreateTerm";
     String UPDATE_TERM="com.cms.sqltools.DisposeTerm.UpdateTerm";
     String DELETE_TERM="com.cms.sqltools.DisposeTerm.DeleteTerm";
-
+    String CURRENT_TERM="com.cms.sqltools.DisposeTerm.CurrentTerm";
 }
