@@ -29,7 +29,7 @@
         <if test="BuildingName!=null">,@BuildingName=#{BuildingName}</if>
     </select>
 
-    <select id="QueryRoom" parameterType="FilterRoomParam" resultType="map">
+    <select id="QueryRoom" parameterType="QueryRoomParam" resultType="map">
         EXEC F_QueryRoom
                 @TermID=#{TermID},
                 @FindUsing=#{FindUsing},

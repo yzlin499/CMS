@@ -1,6 +1,7 @@
 package com.cms.wechat;
 
 import com.cms.infobeans.FilterRoomParam;
+import com.cms.infobeans.QueryRoomParam;
 import com.cms.infobeans.wechat.WCText;
 import com.cms.wechat.event.WCTextEvent;
 
@@ -31,9 +32,10 @@ public class WCSelectRoom implements WCTextEvent{
         String build=text.substring(4,7);
         build="全部楼".equals(build)?null:build;
         int day=dayList.indexOf(text.charAt(2))-2;
-        FilterRoomParam filterRoomParam=new FilterRoomParam();
-        filterRoomParam.setBuildingName(build);
-        filterRoomParam.setFindUsing("占用".equals(text.substring(7,9)));
+        QueryRoomParam queryRoomParam=new QueryRoomParam();
+        queryRoomParam.setBuildingName(build);
+        queryRoomParam.setFindUsing("占用".equals(text.substring(7,9)));
+
     }
 
 //    public int calculateWeek(){

@@ -3,6 +3,7 @@ package com.cms.servlets;
 import com.cms.frameclass.FromAPIServlet;
 import com.cms.frameclass.StateCode;
 import com.cms.infobeans.FilterRoomParam;
+import com.cms.infobeans.QueryRoomParam;
 import com.cms.sqltools.SqlSessionManagement;
 import com.cms.tools.Tools;
 import net.sf.json.JSONArray;
@@ -19,15 +20,14 @@ import static com.cms.sqltools.SqlKey.FILTER_ROOM;
 import static com.cms.sqltools.SqlKey.QUERY_ROOM;
 
 @WebServlet(name = "QueryRoom",value = "/queryRoom")
-public class QueryRoom extends FromAPIServlet<FilterRoomParam>{
+public class QueryRoom extends FromAPIServlet<QueryRoomParam>{
     private SqlSessionManagement<List<Map>> sqls=SqlSessionManagement.getInstance();
     public QueryRoom(){
         setContentType("application/json");
     }
 
     @Override
-    final protected String responseText(FilterRoomParam dataBean) {
-        conversionBean(dataBean);
+    final protected String responseText(QueryRoomParam dataBean) {
         JSONObject responseJSON = new JSONObject();
         responseJSON.put("state", StateCode.COMPLETE);
         responseJSON.put("message","查询成功");
@@ -44,10 +44,5 @@ public class QueryRoom extends FromAPIServlet<FilterRoomParam>{
         }
         responseJSON.put("data",dataNode);
         return Tools.cnToUnicode(responseJSON.toString());
-    }
-
-    private FilterRoomParam conversionBean(FilterRoomParam dataBean){
-        dataBean.setClassWeek(1<<(dataBean.getClassWeek()-1));
-        return dataBean;
     }
 }
