@@ -15,4 +15,16 @@
     <select id="LoginUser" parameterType="UserInfo" resultType="UserInfo">
         EXEC F_LoginUser @UserName=#{UserName},@PassWord=#{PassWord}
     </select>
+
+    <select id="SelectPerson" parameterType="int" resultType="UserInfo">
+        SELECT PID AS PersonID,
+               PUserName AS UserName,
+               PCtrlLevel AS PersonCtrlLevel,
+               PEmail AS EMail,
+               PName AS Name,
+               PTel AS TelPhone,
+               PClass AS ClassName,
+               PSex AS sex
+        FROM PersonInfo
+    </select>
 </mapper>

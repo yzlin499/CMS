@@ -3,10 +3,12 @@ package com.cms.servlets;
 import com.cms.exceptions.CMSException;
 import com.cms.exceptions.DBException;
 import com.cms.exceptions.ParamLackException;
+import com.cms.frameclass.CacheState;
 import com.cms.frameclass.JSONAPIServlet;
 import com.cms.frameclass.StateCode;
 import com.cms.infobeans.UserInfo;
 import com.cms.sqltools.SqlSessionManagement;
+import com.cms.tools.Tools;
 import net.sf.json.JSONObject;
 import org.apache.ibatis.exceptions.PersistenceException;
 
@@ -16,6 +18,7 @@ import static com.cms.sqltools.SqlKey.REGISTER;
 
 @WebServlet(name="RegisterServlet",value="/registerServlet")
 public class RegisterServlet extends JSONAPIServlet {
+    private static CacheState cacheState=CacheState.getInstance();
     private SqlSessionManagement<Boolean> sqlSM=SqlSessionManagement.getInstance();
     protected JSONObject APIFunction(JSONObject data) throws CMSException {
         UserInfo userInfo=new UserInfo(data);
@@ -37,6 +40,7 @@ public class RegisterServlet extends JSONAPIServlet {
             throw new ParamLackException("非法班级");
         }else{
             try {
+                userInfo.setPassWord(Tools.MD5(userInfo.getPassWord()));
                 sqlSM.customSqlSession(sqls->{
                     sqls.selectOne(REGISTER, userInfo);
                     return true;
@@ -48,6 +52,7 @@ public class RegisterServlet extends JSONAPIServlet {
         JSONObject result=new JSONObject();
         result.put("state", StateCode.COMPLETE);
         result.put("message","注册成功");
+        cacheState.dataUpdate(SelectPerson.class);
         return result;
     }
 }

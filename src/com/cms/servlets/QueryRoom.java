@@ -35,22 +35,23 @@ public class QueryRoom extends FromJSONAPIServlet<QueryRoomParam> {
         if(dataBean.isNotNull()){
             responseJSON.put("state", StateCode.COMPLETE);
             responseJSON.put("message","查询成功");
+
+            JSONArray dataNode=new JSONArray();
+            try {
+                dataNode.addAll(
+                        sqls.customSqlSession(sqlSession ->sqlSession.selectList(QUERY_ROOM, dataBean))
+                            .stream()
+                            .map(JSONObject::fromObject).collect(Collectors.toList())
+                );
+            }catch (PersistenceException e){
+                responseJSON.put("state", StateCode.DB_ERROR);
+                responseJSON.put("message",e.getCause().getMessage());
+            }
+            responseJSON.put("data",dataNode);
         }else{
             responseJSON.put("state", StateCode.PARAM_LACK);
             responseJSON.put("message","参数错误");
         }
-        JSONArray dataNode=new JSONArray();
-        try {
-            dataNode.addAll(
-                    sqls.customSqlSession(sqlSession ->sqlSession.selectList(QUERY_ROOM, dataBean))
-                        .stream()
-                        .map(JSONObject::fromObject).collect(Collectors.toList())
-            );
-        }catch (PersistenceException e){
-            responseJSON.put("state", StateCode.DB_ERROR);
-            responseJSON.put("message",e.getCause().getMessage());
-        }
-        responseJSON.put("data",dataNode);
         return Tools.cnToUnicode(responseJSON.toString());
     }
 }

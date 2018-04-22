@@ -2,10 +2,15 @@ package com.cms.infobeans.beaninterface;
 
 import net.sf.json.JSONObject;
 
+import java.beans.IntrospectionException;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Stream;
 
 public interface ToJSONObject {
@@ -14,55 +19,45 @@ public interface ToJSONObject {
     }
     static JSONObject autoToJSON(Object beanObject){
         JSONObject jo=new JSONObject();
-        Class bean= beanObject.getClass();
-        String method[]= Stream.of(bean.getMethods())
-                .map(m->m.getName())
-                .filter(m->m.matches("get(?!Class$)[\\S]+"))
-                .sorted()
-                .toArray(String[]::new);
-        Stream.of(bean.getDeclaredFields())
-                .filter(m->{
-                    MapKey mapKey =m.getAnnotation(MapKey.class);
-                    if(mapKey ==null){
-                        return true;
-                    }else{
-                        return mapKey.create();
-                    }
-                }).filter(m->{
-            char[] ch = m.getName().toCharArray();
-            ch[0]&=0xDF;
-            return Arrays.binarySearch(method,"get"+new String(ch))>=0;
-        }).forEach(m->{
-            String key;
-            try {
-                char[] ch = m.getName().toCharArray();
-                ch[0]&=0xDF;
-                Method methodKey=bean.getMethod("get"+new String(ch));
-                MapKey mapKey =m.getAnnotation(MapKey.class);
-                if(mapKey ==null){
-                    key=m.getName();
-                }else{
-                    key= mapKey.value();
-                }
+        Class clazz= beanObject.getClass();
+        List<Field> list=new LinkedList<>();
+        Class superClass=clazz;
+        do{
+            list.addAll(Arrays.asList(superClass.getDeclaredFields()));
+        }while((superClass=superClass.getSuperclass())!=null);
 
-                Object result=methodKey.invoke(beanObject);
+        for(Field field:list){
+            String key;
+            String fieldName=field.getName();
+            MapKey mapKey =field.getAnnotation(MapKey.class);
+            if(mapKey==null){
+                key=fieldName;
+            }else if(!mapKey.create()){
+                continue;
+            }else{
+                key=mapKey.value();
+                key=key.equals("")?fieldName:key;
+            }
+            try {
+                Method getMethod=new PropertyDescriptor(fieldName, clazz).getReadMethod();
+                Object result=getMethod.invoke(beanObject);
                 if(result==null){
 
                 }else if(result instanceof Date){
                     jo.put(key,((Date)result).getTime());
-                }else if(result instanceof Integer){
+                }else if(result instanceof Number || result instanceof Boolean){
                     jo.put(key,result);
                 }else{
                     jo.put(key,result.toString());
                 }
-            } catch (NoSuchMethodException e) {
+            } catch (IntrospectionException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             } catch (InvocationTargetException e) {
                 e.printStackTrace();
             }
-        });
+        }
         return jo;
     }
 }

@@ -18,9 +18,9 @@ import java.lang.reflect.Type;
  * @author yzlin
  */
 public abstract class DisposeClass<T extends SelectClass> extends JSONAPIServlet{
-    private SqlSessionManagement<Boolean> sqlSM=SqlSessionManagement.getInstance();
+    private static SqlSessionManagement<Boolean> sqlSM=SqlSessionManagement.getInstance();
+    private static CacheState cacheState=CacheState.getInstance();
     private JSONObject responseJSON;
-    private CacheState cacheState=CacheState.getInstance();
     private Class<T> selectClass=getFilterBean();
     private Operate [] operates={this::newOperate,this::modifyOperate,this::deleteOperate};
     private String[] operateString={"New","Modify","Delete"};

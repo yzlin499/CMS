@@ -1,6 +1,7 @@
 package com.cms.servlets;
 
 import com.cms.exceptions.CMSException;
+import com.cms.exceptions.DBException;
 import com.cms.exceptions.ParamLackException;
 import com.cms.exceptions.UnknownFailException;
 import com.cms.frameclass.JSONAPIServlet;
@@ -37,7 +38,7 @@ public class LoginUser extends JSONAPIServlet {
         }else{
             UserInfo userInfo=new UserInfo();
             userInfo.setUserName(UserName);
-            userInfo.setPassWord(Tools.MD5(Password));
+            userInfo.setPassWord(Tools.MD5(Password.toLowerCase()));
             try {
                 UserInfo ui = sqlSM.customSqlSession(sqls ->sqls.selectOne(SqlKey.LOGIN_USER, userInfo));
                 if (ui!=null){
@@ -52,7 +53,7 @@ public class LoginUser extends JSONAPIServlet {
                     }
                 }
             }catch (PersistenceException e){
-                throw new UnknownFailException(e.getCause().getMessage());
+                throw new DBException(e.getCause().getMessage());
             }
         }
         return resultJSON;

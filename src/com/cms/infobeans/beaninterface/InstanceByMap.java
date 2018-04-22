@@ -33,12 +33,15 @@ public interface InstanceByMap {
         do{
             list.addAll(Arrays.asList(superClass.getDeclaredFields()));
         }while((superClass=superClass.getSuperclass())!=null);
+
         for(Field field:list){
             String key;
             String fieldName=field.getName();
             MapKey mapKey =field.getAnnotation(MapKey.class);
             if(mapKey==null){
                 key=fieldName;
+            }else if(!mapKey.create()){
+                continue;
             }else{
                 key=mapKey.value();
                 key=key.equals("")?fieldName:key;
