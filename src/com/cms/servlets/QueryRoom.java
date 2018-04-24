@@ -30,7 +30,6 @@ public class QueryRoom extends FromJSONAPIServlet<QueryRoomParam> {
 
     @Override
     final protected String responseText(QueryRoomParam dataBean) {
-        Logger.getLogger(QueryRoom.class).warn(dataBean.toJSON());
         JSONObject responseJSON = new JSONObject();
         if(dataBean.isNotNull()){
             responseJSON.put("state", StateCode.COMPLETE);

@@ -42,6 +42,7 @@ public class WeChatIO<T extends WCInfo> {
 
     private void init(String inputXml){
         try {
+//            logger.warn(inputXml);
             Element element = saxReader.read(new ByteArrayInputStream(inputXml.getBytes("UTF-8"))).getRootElement();
             Map<String,String> map=element.elements().stream().collect(Collectors.toMap(Element::getName,Element::getText));
             String type=map.get("MsgType");

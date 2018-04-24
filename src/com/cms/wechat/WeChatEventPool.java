@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class WeChatEventPool {
     private static class InstanceClass {
@@ -19,19 +20,20 @@ public class WeChatEventPool {
     private Map<String,ArrayList<WeChatEvent>> eventMap=new HashMap<>();
 
     public boolean addWeChatEvent(WeChatEvent weChatEvent){
-        String clazz=weChatEvent.getClass().getSimpleName();
-        clazz=clazz.substring(2,clazz.length()-5).toLowerCase();
-        return getList(clazz).add(weChatEvent);
+        Stream.of(weChatEvent.getClass().getInterfaces())
+                .filter(WeChatEvent.class::isAssignableFrom)
+                .forEach(c->{
+                    String clazz=c.getSimpleName();
+                    clazz=clazz.substring(2,clazz.length()-5).toLowerCase();
+                    getList(clazz).add(weChatEvent);
+                });
+        return true;
     }
 
     public boolean addWeChatEvent(Class<? extends WeChatEvent> weChatEvent){
         try {
-            String clazz=weChatEvent.getSimpleName();
-            clazz=clazz.substring(2,clazz.length()-5).toLowerCase();
-            return getList(clazz).add(weChatEvent.newInstance());
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+            return addWeChatEvent(weChatEvent.newInstance());
+        } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
         return false;

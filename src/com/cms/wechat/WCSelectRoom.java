@@ -52,9 +52,26 @@ public class WCSelectRoom implements WCTextEvent{
             sqls.customSqlSession(sqlSession ->{
                 List<Map> resultList=sqlSession.selectList(QUERY_ROOM, queryRoomParam);
                 reText.append("查询结果如下").append('\n')
-                    .append("课室 时间");
+                    .append("课室    时间");
                 for (Map rMap:resultList) {
-                    reText.append(rMap.get("RoomName")).append(' ').append(rMap.get("ClassTime")).append('\n');
+                    int value=(int)rMap.get("ClassTime");
+                    int count=0;
+                    String roomName=rMap.get("RoomName").toString();
+                    for(int i=0;i<=14;i++){
+                        if((value&1)==1){
+                            count++;
+                        }else if(value==0 && count==0){
+                            break;
+                        }else{
+                            reText.append('\n').append(roomName).append(' ');
+                            if(count>1){
+                                reText.append(i-count+1).append('-');
+                            }
+                            reText.append(i);
+                            count=0;
+                        }
+                        value>>=1;
+                    }
                 }
                 return null;
             });
@@ -62,5 +79,55 @@ public class WCSelectRoom implements WCTextEvent{
             reText.append(e.getCause().getMessage());
         }
         weChatIO.replyText(reText.toString());
+    }
+
+    private static Integer[] convertBitFlagToStr(int value) {
+        List<Integer> l=new ArrayList<>();
+        int count=0;
+        for(int i=0;i<=14;i++){
+            if((value&1)==1){
+                count++;
+            }else if(count>0){
+                l.add(i*10+ count);
+                count=0;
+            }
+            value>>=1;
+        }
+        return l.toArray(new Integer[l.size()]);
+    }
+
+    public static String ConvertBitFlagToStr(int SelectValue, int maxBit) {
+        StringBuilder stringBuilder = new StringBuilder();
+        int i = 1;
+        int first = 0;
+        int last = 0;
+        SelectValue &= ((1 << maxBit-1) - 1);
+        while (SelectValue != 0) {
+            if ((SelectValue & 1) == 0) {
+                if (first != 0) {
+                    if (last == first || last == 0)
+                        stringBuilder.append(first).append(",");
+                    else
+                        stringBuilder.append(first).append("-").append((i)).append(",");
+                    first = last = 0;
+                }
+            } else {
+                if (first == 0)
+                    first = i;
+                else
+                    last = i;
+            }
+            SelectValue >>= 1;
+            i++;
+        }
+        if (first != 0)
+            if (last == first || last == 0)
+                stringBuilder.append(first).append(",");
+            else
+                stringBuilder.append(first).append("-").append((i)).append(",");
+        if (stringBuilder.length() > 0)
+            return stringBuilder.substring(0,stringBuilder.length()-1);
+        else
+            return "";
     }
 }
