@@ -1,5 +1,6 @@
 package com.cms.infobeans.beaninterface;
 
+import com.cms.infobeans.InfoMap;
 import com.cms.infobeans.wechat.WCText;
 
 import java.beans.IntrospectionException;
@@ -13,8 +14,9 @@ import java.util.stream.Stream;
 
 public interface InstanceByMap {
 
-    static InstanceByMap createInstance(Class<? extends InstanceByMap> bean, Map jo){
+    static InstanceByMap createInstance(Class<? extends InstanceByMap> bean, Map<String,?> jo){
         try {
+
             InstanceByMap obj=bean.newInstance();
             createInstance(jo,obj);
             return obj;
@@ -28,6 +30,10 @@ public interface InstanceByMap {
 
     static void createInstance(Map<String,?> valueMap,InstanceByMap obj){
         Class<? extends InstanceByMap> clazz=obj.getClass();
+        if(InfoMap.class.equals(clazz)){
+            ((InfoMap)obj).setData(valueMap);
+            return;
+        }
         List<Field> list=new LinkedList<>();
         Class superClass=clazz;
         do{

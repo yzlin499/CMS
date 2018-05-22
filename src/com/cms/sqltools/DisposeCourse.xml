@@ -4,13 +4,22 @@
 <mapper namespace="com.cms.sqltools.DisposeCourse">
 
     <select id="CreateCourse" parameterType="Course" resultType="int">
-        EXEC F_CreateCourse #{CourseName},#{ClassName},#{Week},#{ClassWeek},#{ClassTime},#{Teacher},#{Room},#{StuCount},#{CurTermID}
+        EXEC F_CreateCourse
+            @CourseName=#{CourseName},
+            @ClassName=#{ClassName},
+            @Week=#{Week},
+            @ClassWeek=#{ClassWeek},
+            @ClassTime=#{ClassTime},
+            @Teacher=#{Teacher},
+            @RID=#{RID},
+            @StuCount=#{StuCount},
+            @CurTermID=#{CurTermID}
     </select>
 
     <select id="UpdateCourse" parameterType="Course">
         EXEC F_ModifyCourse
         @CID=#{CourseID},@CourseName=#{CourseName},@ClassName=#{ClassName},@Week=#{Week},@ClassWeek=#{ClassWeek},
-        @ClassTime=#{ClassTime},@Teacher=#{Teacher},@Room=#{Room},@StuCount=#{StuCount},@CurTermID=#{CurTermID}
+        @ClassTime=#{ClassTime},@Teacher=#{Teacher},@RID=#{RID},@StuCount=#{StuCount},@CurTermID=#{CurTermID}
     </select>
 
     <delete id="DeleteCourse" parameterType="int">
@@ -23,7 +32,7 @@
         <if test="Week==-1">@Week=128</if>
         <if test="ClassWeek!=-1">,@ClassWeek=#{ClassWeek}</if>
         <if test="ClassTime!=-1">,@ClassTime=#{ClassTime}</if>
-        <if test="Room!=null">,@Room=#{Room}</if>
+        <if test="RID!=null">,@RID=#{RID}</if>
         <if test="CurTermID!=-1">,@TermID=#{CurTermID}</if>
     </select>
 </mapper>

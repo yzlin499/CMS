@@ -32,6 +32,7 @@ public class LoginUsers {
     private void newLogin(String user,HttpSession httpSession,Map<String,HttpSession> loginMap){
         httpSession.setMaxInactiveInterval(36000);
         httpSession.setAttribute("loginState", true);
+        httpSession.setAttribute("userName",user);
         HttpSession httpSession2=loginMap.put(user,httpSession);
         if(httpSession2!=null && (!httpSession2.equals(httpSession))){
             try {

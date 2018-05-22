@@ -129,8 +129,19 @@ public class Tools {
         }
     }
 
-    void print(Object a){
+    public static void print(Object a){
         System.out.println(a.toString());
     }
 
+    /**
+     * 简易时间停止
+     * @param millis
+     */
+    public static void sleep(long millis){
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }

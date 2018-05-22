@@ -18,8 +18,8 @@ public class Course implements BasicInterface {
     private int ClassTime=-1;
     @MapKey("CTeacher")
     private String Teacher;
-    @MapKey("RName")
-    private String Room;
+    @MapKey("RID")
+    private int RID=-1;
     @MapKey("CStuCount")
     private int StuCount=0;
     @MapKey("TID")
@@ -36,7 +36,7 @@ public class Course implements BasicInterface {
     @Override
     public boolean isNotNull(){
         return (CourseName!=null && ClassName!=null && Week!=-1 && ClassWeek!=-1 && ClassTime!=-1
-                && Teacher!=null && Room!=null && StuCount!=-1 && CurTermID!=-1 && CourseID!=-1);
+                && Teacher!=null && RID!=-1 && StuCount!=-1 && CurTermID!=-1 && CourseID!=-1);
     }
 
     public int getCourseID() {
@@ -95,14 +95,6 @@ public class Course implements BasicInterface {
         Teacher = teacher;
     }
 
-    public String getRoom() {
-        return Room;
-    }
-
-    public void setRoom(String room) {
-        Room = room;
-    }
-
     public int getStuCount() {
         return StuCount;
     }
@@ -119,4 +111,11 @@ public class Course implements BasicInterface {
         CurTermID = curTermID;
     }
 
+    public int getRID() {
+        return RID;
+    }
+
+    public void setRID(int RID) {
+        this.RID = RID;
+    }
 }

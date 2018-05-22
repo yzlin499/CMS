@@ -55,7 +55,12 @@ public abstract class FromJSONAPIServlet <T extends InstanceByMap> extends HttpS
     }
 
     private void theFunction(Map<String, String> data,HttpServletResponse resp) throws ServletException, IOException{
-        T reqData=(T) InstanceByMap.createInstance(infoBean,data);
+        T reqData;
+        if((reqData=newBeanInstance())==null){
+            reqData=(T) InstanceByMap.createInstance(infoBean,data);
+        }else{
+            InstanceByMap.createInstance(data,reqData);
+        }
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType(contentType+";charset=UTF-8");
         resp.getWriter().print(responseText(reqData));
@@ -90,5 +95,9 @@ public abstract class FromJSONAPIServlet <T extends InstanceByMap> extends HttpS
 
     final protected void setContentType(String contentType){
         this.contentType=contentType;
+    }
+
+    protected T newBeanInstance(){
+        return null;
     }
 }

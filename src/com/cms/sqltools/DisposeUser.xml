@@ -27,4 +27,16 @@
                PSex AS sex
         FROM PersonInfo
     </select>
+
+    <select id="BindingUser" parameterType="WeChatBindingInfo">
+        EXEC F_BindUser
+        @UserName=#{UserName},
+        @Password=#{Password},
+        @BindType=#{BindType},
+        @BindValue=#{BindValue}
+    </select>
+    
+    <update id="UpdateBuildingInfo" parameterType="UpdateBuildingInfo">
+        update BuildingInfo set Buuid=@buuid where bid=@bid
+    </update>
 </mapper>

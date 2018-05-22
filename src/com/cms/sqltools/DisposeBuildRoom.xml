@@ -5,18 +5,18 @@
 
     <select id="CreateRoom" parameterType="Room" resultType="int">
         EXEC  F_CreateRoom @RoomName=#{RoomName},@BuildingName=#{BuildingName},@MaxStudentCount=#{MaxStudentCount}
-        <if test="UserFor!=null">,@UserFor=#{UserFor}</if>
+        <if test="UseFor!=null">,@UseFor=#{UseFor}</if>
     </select>
 
     <select id="SelectRoom" resultType="Room">
-        SELECT RID AS RoomID,RName AS RoomName,BName AS BuildingName,RMaxCount AS MaxStudentCount,RUseFor AS UserFor
+        SELECT RID AS RoomID,RName AS RoomName,BName AS BuildingName,RMaxCount AS MaxStudentCount,RUseFor AS UseFor
         FROM RoomInfo,BuildingInfo
         WHERE RoomInfo.BID=BuildingInfo.BID
     </select>
 
     <select id="UpdateRoom" parameterType="Room">
         EXEC F_ModifyRoom @RID=#{RoomID},@RoomName=#{RoomName},@BuildingName=#{BuildingName},
-                          @MaxStudentCount=#{MaxStudentCount},@UserFor=#{UserFor}
+                          @MaxStudentCount=#{MaxStudentCount},@UseFor=#{UseFor}
     </select>
 
     <delete id="DeleteRoom" parameterType="int">
